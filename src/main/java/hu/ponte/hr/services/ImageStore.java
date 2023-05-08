@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 @Service
 @RequiredArgsConstructor
 public class ImageStore {
@@ -22,7 +20,7 @@ public class ImageStore {
     public String saveImage(final MultipartFile file) throws IOException {
         ImageMeta imageMeta = ImageMeta.builder()
                 .size(file.getSize())
-                .name(file.getName())
+                .name(file.getOriginalFilename())
                 .mimeType(file.getContentType())
                 .digitalSign(signService.signImage(file.getBytes()))
                 .build();
@@ -39,7 +37,6 @@ public class ImageStore {
             return Optional.empty();
         }
         ImageMeta imageMeta = optionalImageMeta.get();
-        String digitalSign = imageMeta.getDigitalSign();
-        return Optional.of(signService.decodeImage(digitalSign.getBytes(UTF_8)));
+        return Optional.of(signService.decodeImage(imageMeta.getDigitalSign()));
     }
 }

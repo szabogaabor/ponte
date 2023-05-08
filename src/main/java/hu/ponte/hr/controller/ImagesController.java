@@ -2,21 +2,23 @@ package hu.ponte.hr.controller;
 
 
 import hu.ponte.hr.services.ImageStore;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
 @RequestMapping("api/images")
+@RequiredArgsConstructor
 public class ImagesController {
 
-    @Autowired
-    private ImageStore imageStore;
+    private final ImageStore imageStore;
 
     @GetMapping("meta")
     public List<ImageMeta> listImages() {
@@ -24,7 +26,7 @@ public class ImagesController {
     }
 
     @GetMapping("preview/{id}")
-    public @ResponseBody ResponseEntity<byte[]> getImage(@PathVariable("id") String id, HttpServletResponse response) {
+    public @ResponseBody ResponseEntity<byte[]> getImage(@PathVariable("id") String id) {
         Optional<byte[]> optionalImage = imageStore.getImage(id);
         return optionalImage.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
