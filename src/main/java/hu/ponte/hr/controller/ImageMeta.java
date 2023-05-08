@@ -1,18 +1,26 @@
 package hu.ponte.hr.controller;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
+
+import javax.persistence.*;
 
 /**
  * @author zoltan
  */
-@Getter
 @Builder
-public class ImageMeta
-{
-	private String id;
-	private String name;
-	private String mimeType;
-	private long size;
-	private String digitalSign;
+@Entity
+@Table
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ImageMeta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
+    private String name;
+    private String mimeType;
+    private long size;
+    @Column(length = 5000000)
+    private String digitalSign;
+
 }
