@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,13 @@ public class ImageStore {
         return imageRepository.findAll();
     }
 
-    public Optional<ImageMeta> findById(String id) {
-        return imageRepository.findById(id);
+    public Optional<byte[]> getImage(String id) {
+        Optional<ImageMeta> optionalImageMeta = imageRepository.findById(id);
+        if (optionalImageMeta.isEmpty()) {
+            return Optional.empty();
+        }
+        ImageMeta imageMeta = optionalImageMeta.get();
+        String digitalSign = imageMeta.getDigitalSign();
+        return Optional.of(signService.decodeImage(digitalSign.getBytes()));
     }
 }
