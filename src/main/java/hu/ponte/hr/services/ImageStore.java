@@ -7,9 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +40,6 @@ public class ImageStore {
         }
         ImageMeta imageMeta = optionalImageMeta.get();
         String digitalSign = imageMeta.getDigitalSign();
-        return Optional.of(signService.decodeImage(digitalSign.getBytes()));
+        return Optional.of(signService.decodeImage(digitalSign.getBytes(UTF_8)));
     }
 }
