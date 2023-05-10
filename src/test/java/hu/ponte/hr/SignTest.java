@@ -1,6 +1,7 @@
 package hu.ponte.hr;
 
 import hu.ponte.hr.services.SignService;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -44,8 +45,25 @@ public class SignTest {
             } catch (IOException e) {
                 log.error("Could not load file {}", fileName);
             }
-            byte[] signedImage = signService.signAndEncodeImage(imageBytes);
-            assertEquals(Arrays.toString(signedImage), value);
+            String signedImage = signService.signAndEncodeImage(imageBytes);
+            assertEquals(signedImage, value);
+        });
+    }
+
+    @Test
+    public void test_02()  {
+        String pathBase = "src/test/resources/images/";
+        files.forEach((fileName, value) -> {
+            byte[] imageBytes = new byte[0];
+            try {
+                imageBytes = Files.readAllBytes(Paths.get(pathBase + fileName));
+            } catch (IOException e) {
+                log.error("Could not load file {}", fileName);
+            }
+
+//            FileInputStream fileInputStreamReader = new FileInputStream(file);
+//            byte[] bytes = new byte[(int)file.length()];
+//            fileInputStreamReader.read(bytes);
         });
     }
 

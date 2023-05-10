@@ -1,5 +1,6 @@
 package hu.ponte.hr.services;
 
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -44,10 +45,11 @@ public class SignService {
 
     /**
      * Signs the image and encodes it with Base64
+     *
      * @param bytes of the image
      * @return the signed&encoded byte array.
      */
-    public byte[] signAndEncodeImage(byte[] bytes) {
+    public String signAndEncodeImage(byte[] bytes) {
         try {
             byte[] signedImage = sign(bytes);
             log.info("Image signed.");
@@ -58,8 +60,12 @@ public class SignService {
         }
     }
 
-    public byte[] decodeImage(byte[] bytes) {
-        return Base64.getDecoder().decode(bytes);
+    public byte[] decodeImage(String image) {
+        return Base64.getDecoder().decode(image);
+    }
+
+    private String encodeImage(byte[] bytes) {
+        return new String(Base64.getEncoder().encode(bytes), StandardCharsets.UTF_8);
     }
 
     /**
@@ -72,7 +78,4 @@ public class SignService {
         return signature.sign();
     }
 
-    private byte[] encodeImage(byte[] bytes) {
-        return Base64.getEncoder().encode(bytes);
-    }
 }

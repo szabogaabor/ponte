@@ -31,10 +31,11 @@ public class ImagesController {
 
     /**
      * Returns the image if it's stored, or an 500 if we don't have info about that given image.
+     *
      * @param id of the image
      * @return the image in byte array.
      */
-    @GetMapping(name = "preview/{id}", produces = "image/png")
+    @GetMapping("preview/{id}")
     public @ResponseBody ResponseEntity<byte[]> getImage(@PathVariable("id") String id) {
         Optional<byte[]> optionalImage = imageStore.getImage(id);
         return optionalImage.map(ResponseEntity::ok)
