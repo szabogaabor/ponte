@@ -27,7 +27,7 @@ public class ImageMeta {
     private String name;
     private String mimeType;
     private long size;
-    @Column(length = 5000000)
+    @Column(length = 2_000_000)
     private byte[] digitalSign;
 
 }

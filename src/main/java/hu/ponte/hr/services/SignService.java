@@ -1,16 +1,11 @@
 package hu.ponte.hr.services;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.SignatureException;
-import javax.imageio.ImageIO;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,6 +20,9 @@ public class SignService {
 
     static Signature signature;
 
+    /**
+     * Parsing the private key and loading it with the given algorithm into the signature variable.
+     */
     static {
         try {
             byte[] key = Files.readAllBytes(Paths.get("src/main/resources/config/keys/key.private"));
@@ -42,7 +40,12 @@ public class SignService {
         }
     }
 
-    public byte[] signImage(byte[] bytes) {
+    /**
+     * Signs the image and encodes it with Base64
+     * @param bytes of the image
+     * @return the signed&encoded byte array.
+     */
+    public byte[] signAndEncodeImage(byte[] bytes) {
         try {
             byte[] signedImage = sign(bytes);
             return encodeImage(signedImage);
@@ -51,16 +54,21 @@ public class SignService {
         }
     }
 
-    private byte[] sign(byte[] encodedImage) throws SignatureException {
-        signature.update(encodedImage);
+    public byte[] decodeImage(byte[] bytes) {
+        return Base64.getDecoder().decode(bytes);
+    }
+
+    /**
+     * @param bytes of image
+     * @return signed byte array
+     * @throws SignatureException if there's an issue with the signature.
+     */
+    private byte[] sign(byte[] bytes) throws SignatureException {
+        signature.update(bytes);
         return signature.sign();
     }
 
-    public byte[] encodeImage(byte[] bytes) {
+    private byte[] encodeImage(byte[] bytes) {
         return Base64.getEncoder().encode(bytes);
-    }
-
-    public byte[] decodeImage(byte[] bytes) {
-        return Base64.getDecoder().decode(bytes);
     }
 }

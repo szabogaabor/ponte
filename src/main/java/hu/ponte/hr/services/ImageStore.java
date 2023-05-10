@@ -17,12 +17,18 @@ public class ImageStore {
     private final ImageRepository imageRepository;
     private final SignService signService;
 
+    /**
+     * Saving the image, and returning the ID of it.
+     * @param file
+     * @return ID of the file saved to database.
+     * @throws IOException if the file is corrupted, and cannot get the bytes of it.
+     */
     public String saveImage(final MultipartFile file) throws IOException {
         ImageMeta imageMeta = ImageMeta.builder()
                 .size(file.getSize())
                 .name(file.getOriginalFilename())
                 .mimeType(file.getContentType())
-                .digitalSign(signService.signImage(file.getBytes()))
+                .digitalSign(signService.signAndEncodeImage(file.getBytes()))
                 .build();
         return imageRepository.save(imageMeta).getId();
     }
