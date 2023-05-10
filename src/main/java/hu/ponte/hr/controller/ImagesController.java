@@ -1,6 +1,7 @@
 package hu.ponte.hr.controller;
 
 
+import hu.ponte.hr.dto.ImageMeta;
 import hu.ponte.hr.services.ImageStore;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController()
+@RestController
 @RequestMapping("api/images")
 @RequiredArgsConstructor
 public class ImagesController {
@@ -25,7 +26,7 @@ public class ImagesController {
         return imageStore.listImages();
     }
 
-    @GetMapping("preview/{id}")
+    @GetMapping(name = "preview/{id}", produces = "image/png")
     public @ResponseBody ResponseEntity<byte[]> getImage(@PathVariable("id") String id) {
         Optional<byte[]> optionalImage = imageStore.getImage(id);
         return optionalImage.map(ResponseEntity::ok)

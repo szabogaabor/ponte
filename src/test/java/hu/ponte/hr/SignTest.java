@@ -1,12 +1,17 @@
 package hu.ponte.hr;
 
+import hu.ponte.hr.services.SignService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+
+import static org.mockito.Mockito.mock;
 
 /**
  * @author zoltan
@@ -22,10 +27,12 @@ public class SignTest
 			put("rnd.jpg","lM6498PalvcrnZkw4RI+dWceIoDXuczi/3nckACYa8k+KGjYlwQCi1bqA8h7wgtlP3HFY37cA81ST9I0X7ik86jyAqhhc7twnMUzwE/+y8RC9Xsz/caktmdA/8h+MlPNTjejomiqGDjTGvLxN9gu4qnYniZ5t270ZbLD2XZbuTvUAgna8Cz4MvdGTmE3MNIA5iavI1p+1cAN+O10hKwxoVcdZ2M3f7/m9LYlqEJgMnaKyI/X3m9mW0En/ac9fqfGWrxAhbhQDUB0GVEl7WBF/5ODvpYKujHmBAA0ProIlqA3FjLTLJ0LGHXyDgrgDfIG/EDHVUQSdLWsM107Cg6hQg==");
 		}
 	};
+	@MockBean
+	private SignService signService;
 
 	@Test
 	public void test_01() {
-
+		signService.
 	}
 
 

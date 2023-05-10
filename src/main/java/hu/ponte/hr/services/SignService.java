@@ -1,10 +1,16 @@
 package hu.ponte.hr.services;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.Signature;
+import java.security.SignatureException;
+import javax.imageio.ImageIO;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,7 +23,7 @@ import java.util.Base64;
 @Service
 public class SignService {
 
-    static Signature signature = null;
+    static Signature signature;
 
     static {
         try {
@@ -45,14 +51,9 @@ public class SignService {
         }
     }
 
-    private byte[] sign(byte[] encodedImage) {
-        try {
-            signature.update(encodedImage);
-            return signature.sign();
-        } catch (Exception e) {
-            System.out.println(e);
-            return null;
-        }
+    private byte[] sign(byte[] encodedImage) throws SignatureException {
+        signature.update(encodedImage);
+        return signature.sign();
     }
 
     public byte[] encodeImage(byte[] bytes) {

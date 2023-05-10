@@ -1,6 +1,6 @@
 package hu.ponte.hr.services;
 
-import hu.ponte.hr.controller.ImageMeta;
+import hu.ponte.hr.dto.ImageMeta;
 import hu.ponte.hr.repositories.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

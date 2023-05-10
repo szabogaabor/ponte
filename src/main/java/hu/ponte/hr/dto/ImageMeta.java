@@ -1,4 +1,4 @@
-package hu.ponte.hr.controller;
+package hu.ponte.hr.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -22,7 +22,6 @@ public class UploadController {
     @PostMapping(value = "post")
     @ResponseBody
     public ResponseEntity<String> handleFormUpload(@RequestParam("file") MultipartFile file) throws IOException {
-        String id = imageStore.saveImage(file);
-        return ResponseEntity.ok(id);
+        return ResponseEntity.ok(imageStore.saveImage(file));
     }
 }
