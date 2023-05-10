@@ -3,6 +3,7 @@ package hu.ponte.hr.services;
 import hu.ponte.hr.dto.ImageMeta;
 import hu.ponte.hr.repositories.ImageRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ImageStore {
 
@@ -19,6 +21,7 @@ public class ImageStore {
 
     /**
      * Saving the image, and returning the ID of it.
+     *
      * @param file
      * @return ID of the file saved to database.
      * @throws IOException if the file is corrupted, and cannot get the bytes of it.
@@ -40,6 +43,7 @@ public class ImageStore {
     public Optional<byte[]> getImage(String id) {
         Optional<ImageMeta> optionalImageMeta = imageRepository.findById(id);
         if (optionalImageMeta.isEmpty()) {
+            log.info("Could not find any image with id {}", id);
             return Optional.empty();
         }
         ImageMeta imageMeta = optionalImageMeta.get();

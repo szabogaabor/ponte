@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.SignatureException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
 @Service
+@Slf4j
 public class SignService {
 
     static Signature signature;
@@ -48,8 +50,10 @@ public class SignService {
     public byte[] signAndEncodeImage(byte[] bytes) {
         try {
             byte[] signedImage = sign(bytes);
+            log.info("Image signed.");
             return encodeImage(signedImage);
         } catch (Exception e) {
+            log.error("Could not sign image.");
             throw new RuntimeException("Could not sign image", e);
         }
     }

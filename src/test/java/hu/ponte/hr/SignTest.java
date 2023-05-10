@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest()
+@Slf4j
 public class SignTest {
     Map<String, String> files = new LinkedHashMap<String, String>() {
         {
@@ -33,14 +35,14 @@ public class SignTest {
     private SignService signService;
 
     @Test
-    public void test_01() throws IOException {
+    public void test_01()  {
         String pathBase = "src/test/resources/images/";
         files.forEach((fileName, value) -> {
             byte[] imageBytes = new byte[0];
             try {
                 imageBytes = Files.readAllBytes(Paths.get(pathBase + fileName));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                log.error("Could not load file {}", fileName);
             }
             byte[] signedImage = signService.signAndEncodeImage(imageBytes);
             assertEquals(Arrays.toString(signedImage), value);
