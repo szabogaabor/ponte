@@ -36,7 +36,7 @@ public class SignTest {
     private SignService signService;
 
     @Test
-    public void test_01()  {
+    public void testSignature()  {
         String pathBase = "src/test/resources/images/";
         files.forEach((fileName, value) -> {
             byte[] imageBytes = new byte[0];
@@ -49,23 +49,5 @@ public class SignTest {
             assertEquals(signedImage, value);
         });
     }
-
-    @Test
-    public void test_02()  {
-        String pathBase = "src/test/resources/images/";
-        files.forEach((fileName, value) -> {
-            byte[] imageBytes = new byte[0];
-            try {
-                imageBytes = Files.readAllBytes(Paths.get(pathBase + fileName));
-            } catch (IOException e) {
-                log.error("Could not load file {}", fileName);
-            }
-
-//            FileInputStream fileInputStreamReader = new FileInputStream(file);
-//            byte[] bytes = new byte[(int)file.length()];
-//            fileInputStreamReader.read(bytes);
-        });
-    }
-
 
 }
